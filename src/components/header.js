@@ -9,13 +9,13 @@ headerDiv.classList.add('header');
 headerDate.classList.add('date');
 headerTemp.classList.add('temp');
 
-headerDiv.appendChild(headerTitle);
 headerDiv.appendChild(headerDate);
+headerDiv.appendChild(headerTitle);
 headerDiv.appendChild(headerTemp);
 
-headerTitle.textContent =`${title}`;
-headerDate.textContent = `${date}`;
-headerTemp.textContent = `${temp}`;
+headerTitle.textContent = title;
+headerDate.textContent = date;
+headerTemp.textContent = temp;
 
 return headerDiv;
 
@@ -32,17 +32,19 @@ return headerDiv;
   //  </div>
   //
 }
-Header('title', 'date', 'temp');
+
 
 
 const headerAppender = (selector) => {
-  // const headerContainer = document.querySelector(selector);
-  // const header = document.createElement('header');
-  // const headerMaker = Header('title','date', 'temp');
+  const headerMaker = Header('title','date','temp');
 
+  const headerContainer = document.querySelector(selector);
+
+  const headerElem = document.createElement('header');
   
-  // headerContainer.appendChild(header);
-  // header.appendChild(headerMaker);
+
+  headerContainer.appendChild(headerElem);
+  headerElem.appendChild(headerMaker);
   
   
 
@@ -57,7 +59,7 @@ const headerAppender = (selector) => {
 }
 
 
-// console.log(headerAppender(['.header-container']));
+
 
 
 export { Header, headerAppender }

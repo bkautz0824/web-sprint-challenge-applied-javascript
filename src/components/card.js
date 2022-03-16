@@ -1,27 +1,38 @@
+import axios from "axios";
+
 const Card = (article) => {
 
 const articleCard = document.createElement('div');
-const headline = document.createElement('div');
-const author =  document.createElement('div');
-const imgContainer = document.createElement('div');
-const authorPhoto = document.createElement('img');
-const articleSpan = document.createElement('span');
-
-
 articleCard.classList.add('card');
-headline.classList.add('headline');
-author.classList.add('author');
-imgContainer.classList.add('img-container');
 
-authorPhoto.src = `${authorPhoto}`;
-headline.textContent = `${headline}`;
-articleSpan.textContent = `By ${authorName}`;
+  const headline = document.createElement('div');
+  const author =  document.createElement('div');
+  const imgContainer = document.createElement('div');
+  const authorPhoto = document.createElement('img');
+  const articleSpan = document.createElement('span');
+  
+  headline.classList.add('headline');
+  author.classList.add('author');
+  imgContainer.classList.add('img-container');
 
-articleCard.appendChild(headline);
-articleCard.appendChild(author);
-author.appendChild(imgContainer);
-imgContainer.appendChild(authorPhoto);
-author.appendChild(authorName);
+
+  headline.textContent = article.headline;
+  authorPhoto.src = article.authorPhoto;
+  articleSpan.textContent = `By ${article.authorName}`;
+  
+  articleCard.appendChild(headline);
+  articleCard.appendChild(author);
+  author.appendChild(imgContainer);
+  imgContainer.appendChild(authorPhoto);
+  author.appendChild(articleSpan);
+  
+
+  
+  articleCard.addEventListener("click", () =>{
+    console.log(elem.headline);
+    })
+  
+
 
 return articleCard;
 
@@ -47,6 +58,25 @@ return articleCard;
 
 const cardAppender = (selector) => {
   // TASK 6
+const entryPoint = document.querySelector(selector);
+axios.get(`http://localhost:5000/api/articles`)
+.then(res => {
+  console.log('articles', res.data.articles);
+  console.log('1', Object.keys(res.data.articles));
+  const entries = Object.entries(res.data.articles).forEach(([key, value]) => {
+    console.log(`${key}: ${value}`);
+});
+console.log(entries);
+})
+.catch(err => {
+  console.error(err)
+})
+.finally(() =>{
+  console.log("It's Working");
+})
+
+
+
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
   // It should obtain articles from this endpoint: `http://localhost:5000/api/articles` (test it with console.log!!).
@@ -55,5 +85,7 @@ const cardAppender = (selector) => {
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
 }
+
+// cardAppender('card-container');
 
 export { Card, cardAppender }
