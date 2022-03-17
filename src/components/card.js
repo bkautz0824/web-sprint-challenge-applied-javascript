@@ -5,33 +5,38 @@ const Card = (article) => {
 const articleCard = document.createElement('div');
 articleCard.classList.add('card');
 
-  const headline = document.createElement('div');
+console.log('article', article);
+
+  const articleHeadline = document.createElement('div');
   const author =  document.createElement('div');
   const imgContainer = document.createElement('div');
-  const authorPhoto = document.createElement('img');
+  const articleAuthorPhoto = document.createElement('img');
   const articleSpan = document.createElement('span');
   
-  headline.classList.add('headline');
+  articleHeadline.classList.add('headline');
   author.classList.add('author');
   imgContainer.classList.add('img-container');
 
 
-  headline.textContent = article.headline;
-  authorPhoto.src = article.authorPhoto;
+  articleHeadline.textContent = article.headline;
+  articleAuthorPhoto.src = article.authorPhoto;
   articleSpan.textContent = `By ${article.authorName}`;
   
-  articleCard.appendChild(headline);
+  articleCard.appendChild(articleHeadline);
   articleCard.appendChild(author);
   author.appendChild(imgContainer);
-  imgContainer.appendChild(authorPhoto);
+  imgContainer.appendChild(articleAuthorPhoto);
   author.appendChild(articleSpan);
   
 
   
   articleCard.addEventListener("click", () =>{
-    console.log(elem.headline);
+    console.log(article.headline);
     })
   
+
+  
+
 
 
 return articleCard;
@@ -62,11 +67,20 @@ const entryPoint = document.querySelector(selector);
 axios.get(`http://localhost:5000/api/articles`)
 .then(res => {
   console.log('articles', res.data.articles);
-  console.log('1', Object.keys(res.data.articles));
-  const entries = Object.entries(res.data.articles).forEach(([key, value]) => {
-    console.log(`${key}: ${value}`);
-});
-console.log(entries);
+  const articlesObject = Object.values(res.data.articles);
+  console.log(articlesObject);
+
+  articlesObject.forEach((elem) =>{
+    elem.forEach(val =>{
+      const cardObject = Card(val);
+      entryPoint.appendChild(cardObject);
+      
+    })
+    // console.log('elem', elem);
+    // const cardArray = Card({ headline: elem, authorName: elem, authorPhoto: elem })
+    // console.log('cardArray', cardArray);
+    // entryPoint.appendChild(cardArray);
+ });
 })
 .catch(err => {
   console.error(err)
@@ -85,7 +99,5 @@ console.log(entries);
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
 }
-
-// cardAppender('card-container');
 
 export { Card, cardAppender }
